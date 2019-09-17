@@ -32,7 +32,7 @@ hours_hist = hist(slpdat$Hours,freq = TRUE,
 
 cycles_hist = hist(slpdat$Cycles,freq = TRUE,
                    main="Figure 4: Histogram of Sleep Cycles",
-                   xlab="Sleep Cycles"
+                   xlab="Sleep Cycles",
                    breaks=seq(0,8,1))
 
 # Visualize the data
