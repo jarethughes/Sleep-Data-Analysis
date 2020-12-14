@@ -2,11 +2,11 @@
 # It includes relationships between sleep time, wake time, and duration
 
 getwd()
-setwd("C:/Users/Jaret/Documents/")
-# Yes, I know how messy it is to just dump everything into /Documents/, no I will not be changing this (for the time being)
+setwd("C:/Users/Jaret/Documents/GitHub/Sleep-Data-Analysis")
+# New Computer, New Organizational Tactics
 getwd()
 
-slpdat = read.table("sleeptrack090619.prn",header = TRUE)
+slpdat = read.csv("06_26_20_1593183450022.csv",header = TRUE)
 # Change filename as needed, this is the first file I had
 
 slpdat$decST = slpdat$decST + ifelse(slpdat$decST <= 6, 24, 0)
@@ -18,7 +18,7 @@ slpdat$Cycles = slpdat$Hours / 1.5
 sleeptime_hist = hist(slpdat$decST,freq = TRUE,
                       main="Figure 1: Histogram of Sleep Times",
                       xlab="Sleep Time",
-                      breaks=seq(20,30,.25))
+                      breaks=seq(5,30,.25))
 
 waketime_hist = hist(slpdat$decWT,freq = TRUE,
                      main="Figure 2: Histogram of Wake Times",
@@ -55,8 +55,17 @@ plot(slpdat$decST,slpdat$Hours,
 # Visualize the relationships between the data
 # slpdat$Cycles is omitted because it is simply a function of slpdat$Hours
 
+#
+#Sleep time and Wake Time
 print(cor(slpdat$decST,slpdat$decWT))
+#Sleep time and Hours Slept
 print(cor(slpdat$decST,slpdat$Hours))
+#Wake time and Hours Slept
 print(cor(slpdat$decWT,slpdat$Hours))
 
 # Determine strength and direction of relationships
+
+reg_slpHours = lm(Hours~decST+decWT,slpdat)
+summary(reg_slpHours)
+abline(reg_slpHours, col="red")
+#Create a OLS model to estimate impact of sleep time and wake time on hours slept
